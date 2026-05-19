@@ -25,3 +25,15 @@ not show up as "Income".
 **Likely approach:** new optional field `reimbursements: list[Transaction]`
 on Transaction, populated in a post-categorization pass. Aggregator subtracts
 reimbursement totals from the parent transaction's category.
+
+## Future features
+
+### Manual category corrections
+When the LLM classifies a merchant as the wrong category, the user should be
+able to override it. The override should be stored as a per-user rule (in DB,
+not YAML) and take priority over both the rules engine and the LLM on future
+runs. The cache should respect these overrides.
+
+**Example:** Math tuition payments from "LEE HUAY LING" look like outgoing
+PayNow to a person's name. The LLM will guess "Transfers". User corrects to
+"Income" once, the system remembers forever.

@@ -142,7 +142,6 @@ rules:
   - {pattern: "MOOMOO", category: Investments}
   - {pattern: "INTERACTIVE BROKERS", category: Investments}
 
-  # ----- Income -----
-  - {pattern: "LEE HUAY LING", category: Income}  # math tuition
+  # ----- Income ----- 
   - {pattern: "Interest Credit", category: Income}
   - {pattern: "SALARY", category: Income}

@@ -30,11 +30,6 @@ def test_unmatched_returns_none(engine):
     assert engine.categorize("RANDOM MERCHANT XYZ") is None
     assert engine.categorize("john") is None  # person-name PayNow
 
-
-def test_user_income(engine):
-    assert engine.categorize("LEE HUAY LING (LI HU") == "Income"
-
-
 def test_validation_catches_typos(tmp_path):
     bad = tmp_path / "bad.yaml"
     bad.write_text(
