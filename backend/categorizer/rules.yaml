@@ -1,0 +1,148 @@
+# Categories. Every rule must use one of these names exactly.
+categories:
+  - Food
+  - Groceries
+  - Transport
+  - Shopping
+  - Subscriptions
+  - Bills & Utilities
+  - Health
+  - Entertainment
+  - Travel
+  - Investments
+  - Transfers
+  - Income
+  - Other
+
+# Rules apply in order — first match wins.
+# Pattern matching is case-insensitive substring containment.
+# Order from most-specific to most-general.
+rules:
+  # ----- Transport -----
+  - {pattern: "BUS/MRT", category: Transport}
+  - {pattern: "EZ-LINK", category: Transport}
+  - {pattern: "EZLINK", category: Transport}
+  - {pattern: "Grab*", category: Transport}
+  - {pattern: "GOJEK", category: Transport}
+  - {pattern: "TADA", category: Transport}
+  - {pattern: "COMFORTDELGRO", category: Transport}
+  - {pattern: "SMRT", category: Transport}
+  - {pattern: "SBS TRANSIT", category: Transport}
+  - {pattern: "SHELL", category: Transport}
+  - {pattern: "ESSO", category: Transport}
+  - {pattern: "CALTEX", category: Transport}
+
+  # ----- Groceries -----
+  - {pattern: "NTUC FAIRPRICE", category: Groceries}
+  - {pattern: "FAIRPRICE", category: Groceries}
+  - {pattern: "SHENG SIONG", category: Groceries}
+  - {pattern: "COLD STORAGE", category: Groceries}
+  - {pattern: "GIANT", category: Groceries}
+  - {pattern: "PRIME SUPERMARKET", category: Groceries}
+  - {pattern: "DON DON DONKI", category: Groceries}
+  - {pattern: "MEIDI-YA", category: Groceries}
+  - {pattern: "REDMART", category: Groceries}
+  - {pattern: "CHEERS", category: Groceries}
+  - {pattern: "7-ELEVEN", category: Groceries}
+
+  # ----- Subscriptions (before Shopping — AWS contains "AMAZON") -----
+  - {pattern: "AMAZON WEB SERVICES", category: Subscriptions}
+  - {pattern: "SPOTIFY", category: Subscriptions}
+  - {pattern: "NETFLIX", category: Subscriptions}
+  - {pattern: "DISNEY+", category: Subscriptions}
+  - {pattern: "DISNEYPLUS", category: Subscriptions}
+  - {pattern: "YOUTUBE PREMIUM", category: Subscriptions}
+  - {pattern: "APPLE.COM", category: Subscriptions}
+  - {pattern: "LINKEDIN", category: Subscriptions}
+  - {pattern: "UDEMY", category: Subscriptions}
+  - {pattern: "OPENAI", category: Subscriptions}
+  - {pattern: "ANTHROPIC", category: Subscriptions}
+  - {pattern: "GITHUB", category: Subscriptions}
+  - {pattern: "CHATGPT", category: Subscriptions}
+  - {pattern: "ICLOUD", category: Subscriptions}
+  - {pattern: "ADOBE", category: Subscriptions}
+  - {pattern: "NOTION", category: Subscriptions}
+
+  # ----- Food -----
+  - {pattern: "MCDONALD", category: Food}
+  - {pattern: "STARBUCKS", category: Food}
+  - {pattern: "KFC", category: Food}
+  - {pattern: "BURGER KING", category: Food}
+  - {pattern: "SUBWAY", category: Food}
+  - {pattern: "TOAST BOX", category: Food}
+  - {pattern: "YA KUN", category: Food}
+  - {pattern: "BREADTALK", category: Food}
+  - {pattern: "KOPITIAM", category: Food}
+  - {pattern: "FOODPANDA", category: Food}
+  - {pattern: "DELIVEROO", category: Food}
+  - {pattern: "GRABFOOD", category: Food}
+  - {pattern: "PS CAFE", category: Food}
+  - {pattern: "SUSHI GOGO", category: Food}
+  - {pattern: "NUS FOODCOURT", category: Food}
+  - {pattern: "MIXED RICE", category: Food}
+  - {pattern: "EIGHT STAR", category: Food}
+  - {pattern: "CHICKEN RICE", category: Food}
+  - {pattern: "WU FU", category: Food}
+  - {pattern: "THRIVE FOOD", category: Food}
+  - {pattern: "YA FU", category: Food}
+  - {pattern: "FOODCOURT", category: Food}
+  - {pattern: "HAWKER", category: Food}
+  - {pattern: "RESTAURANT", category: Food}
+  - {pattern: "CAFE", category: Food}
+
+  # ----- Shopping -----
+  - {pattern: "SHOPEE", category: Shopping}
+  - {pattern: "LAZADA", category: Shopping}
+  - {pattern: "TAOBAO", category: Shopping}
+  - {pattern: "TIKTOK SHOP", category: Shopping}
+  - {pattern: "AMAZON.SG", category: Shopping}
+  - {pattern: "AMAZON", category: Shopping}
+  - {pattern: "QOO10", category: Shopping}
+  - {pattern: "UNIQLO", category: Shopping}
+  - {pattern: "POPULAR BOOK", category: Shopping}
+  - {pattern: "MUJI", category: Shopping}
+  - {pattern: "DAISO", category: Shopping}
+  - {pattern: "IKEA", category: Shopping}
+
+  # ----- Travel -----
+  - {pattern: "TRAVELOKA", category: Travel}
+  - {pattern: "KLOOK", category: Travel}
+  - {pattern: "AGODA", category: Travel}
+  - {pattern: "BOOKING.COM", category: Travel}
+  - {pattern: "AIRBNB", category: Travel}
+  - {pattern: "EXPEDIA", category: Travel}
+  - {pattern: "SINGAPORE AIRLINES", category: Travel}
+  - {pattern: "SCOOT", category: Travel}
+  - {pattern: "AIRASIA", category: Travel}
+
+  # ----- Bills & Utilities -----
+  - {pattern: "SP DIGITAL", category: Bills & Utilities}
+  - {pattern: "SINGTEL", category: Bills & Utilities}
+  - {pattern: "STARHUB", category: Bills & Utilities}
+  - {pattern: "CIRCLES.LIFE", category: Bills & Utilities}
+  - {pattern: "FRESH LAUNDRY", category: Bills & Utilities}
+
+  # ----- Health -----
+  - {pattern: "GUARDIAN", category: Health}
+  - {pattern: "WATSONS", category: Health}
+  - {pattern: "UNITY", category: Health}
+  - {pattern: "POLYCLINIC", category: Health}
+
+  # ----- Entertainment -----
+  - {pattern: "GOLDEN VILLAGE", category: Entertainment}
+  - {pattern: "SHAW THEATRES", category: Entertainment}
+  - {pattern: "CATHAY CINEPLEX", category: Entertainment}
+  - {pattern: "STEAM GAMES", category: Entertainment}
+
+  # ----- Investments -----
+  - {pattern: "SYFE", category: Investments}
+  - {pattern: "ENDOWUS", category: Investments}
+  - {pattern: "STASHAWAY", category: Investments}
+  - {pattern: "TIGER BROKERS", category: Investments}
+  - {pattern: "MOOMOO", category: Investments}
+  - {pattern: "INTERACTIVE BROKERS", category: Investments}
+
+  # ----- Income -----
+  - {pattern: "LEE HUAY LING", category: Income}  # math tuition
+  - {pattern: "Interest Credit", category: Income}
+  - {pattern: "SALARY", category: Income}
