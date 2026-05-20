@@ -44,6 +44,7 @@ rules:
   - {pattern: "REDMART", category: Groceries}
   - {pattern: "CHEERS", category: Groceries}
   - {pattern: "7-ELEVEN", category: Groceries}
+  - {pattern: "OCTOBOX", category: Groceries}
 
   # ----- Subscriptions (before Shopping — AWS contains "AMAZON") -----
   - {pattern: "AMAZON WEB SERVICES", category: Subscriptions}
@@ -145,3 +146,8 @@ rules:
   # ----- Income ----- 
   - {pattern: "Interest Credit", category: Income}
   - {pattern: "SALARY", category: Income}
+
+  # ----- Transfers (own-account & payment rails) -----
+  - {pattern: "YOU TECHNOLOGIES", category: Transfers}
+  - {pattern: "YOUTRIP", category: Transfers}
+  - {pattern: "FOMO PAY", category: Transfers}
