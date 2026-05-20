@@ -37,3 +37,37 @@ runs. The cache should respect these overrides.
 **Example:** Math tuition payments from "LEE HUAY LING" look like outgoing
 PayNow to a person's name. The LLM will guess "Transfers". User corrects to
 "Income" once, the system remembers forever.
+
+### Reimbursement matching (refined with real data)
+
+**Problem observed in April statement:** Food total was $166.83, but several
+inbound PayNows (TAY SHU CHEN +$9 +$3, TAN HUI +$12, TAN EN +$12) are likely
+friends repaying shared meals. True food spend is lower; the offset money is
+stranded in Transfers, disconnected from the Food charge it relates to.
+
+**Why it can't be fully automatic:** The statement has only name + amount + date.
+A +$12 could be a meal repayment, loan, gift, or Grab split — indistinguishable
+from the data alone. Wrong financial numbers are worse than none.
+
+**Design: suggest-then-confirm**
+1. After categorization, find inbound transfers (positive amount, Transfers cat).
+2. For each, find candidate spend transactions within a window (e.g. 7 days
+   before, configurable) in offset-eligible categories (Food, Shopping, Travel).
+3. Surface candidates in the UI: "Does +$12 from TAN EN offset your -$48
+   dinner on 18 Apr?" User links or dismisses.
+4. On confirm, store a link: the transfer offsets N dollars of the parent
+   transaction. Parent's effective spend drops by the offset amount.
+
+**Data model sketch:**
+- New table/field: `offsets` linking a transfer tx to a spend tx + amount.
+- Aggregator: subtract confirmed offsets from category & merchant totals.
+- Display: show original -$48 with "-$12 reimbursed (TAN EN)" annotation,
+  net $36. Preserve the original for auditability — never silently rewrite.
+
+**Open questions:**
+- One transfer offsetting multiple meals? Split a transfer across parents?
+- What if offsets exceed the charge (you over-collected)? Cap at charge amount.
+- Should confirmed offset pairs be remembered (TAN EN always = food split)?
+
+**Dependencies:** needs the frontend (Weekend 4+). Until then, Transfers stays
+a separate bucket and Food is slightly overstated. Acceptable for MVP.
