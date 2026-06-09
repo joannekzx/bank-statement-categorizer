@@ -21,7 +21,7 @@ export function CategoryChart({ data }: { data: CategorySummary[] }) {
           <BarChart data={spending} layout="vertical" margin={{ left: 12, right: 16 }}>
             <XAxis type="number" tickFormatter={(v) => formatMoney(v)} fontSize={11} />
             <YAxis type="category" dataKey="category" width={128} fontSize={12} />
-            <Tooltip formatter={(v: number) => formatMoney(v)} cursor={{ fill: "#f1f5f9" }} />
+            <Tooltip formatter={(v) => formatMoney(Number(v))} cursor={{ fill: "#f1f5f9" }} />
             <Bar dataKey="total" fill="#2563eb" radius={[0, 4, 4, 0]} />
           </BarChart>
         </ResponsiveContainer>

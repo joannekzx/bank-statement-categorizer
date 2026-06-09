@@ -1,5 +1,5 @@
 export interface Transaction {
-    data: string;
+    date: string;
     description: string;
     merchant: string;
     amount: number;
@@ -18,7 +18,7 @@ export interface MerchantSummary {
     count: number;
 }
 
-export interface AnalystResult {
+export interface AnalysisResult {
     bank: string;
     period_start: string;
     period_end: string;
