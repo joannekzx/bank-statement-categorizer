@@ -71,3 +71,29 @@ from the data alone. Wrong financial numbers are worse than none.
 
 **Dependencies:** needs the frontend (Weekend 4+). Until then, Transfers stays
 a separate bucket and Food is slightly overstated. Acceptable for MVP.
+
+
+### Manual category corrections — SHIPPED (Weekend 2)
+
+Implemented as `POST /correct {merchant, category}` → `categorizer.cache.set_many`.
+The frontend pill dropdown calls it, updates all rows of that merchant locally,
+and re-aggregates client-side (see `frontend/src/lib/aggregate.ts`, an exact
+mirror of `aggregator.py`).
+
+**Known limitation — corrections only beat the LLM, not the rules engine.**
+The cascade is rules → cache → LLM, and `/correct` writes to the cache. So:
+- Correcting an LLM- or Other-categorized merchant persists: the cache pass
+  catches it on the next /analyze, before the LLM runs.
+- Correcting a *rule*-matched merchant does NOT persist: the rule still fires
+  first and overwrites it on re-upload.
+
+This is acceptable for the MVP — the merchants users actually want to fix are
+the LLM/Other ones. The proper fix is the per-user override store already
+sketched above (overrides beating BOTH rules and LLM). Defer to a later weekend;
+do not try to make the cache outrank rules, as that breaks rule determinism for
+everything else.
+
+**Client-side re-aggregation caveat:** `aggregate.ts` duplicates the backend's
+netting/exclusion/rounding rules so a correction's effect shows without a full
+re-analyze. If `aggregator.py` ever changes, update `aggregate.ts` in lockstep —
+it's the one place frontend forks backend math, and it's marked as such.
