@@ -7,6 +7,13 @@ import { EXCLUDED_CATEGORIES } from "../types";
 // remains the source of truth on every real /analyze.
 const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
 
+// Signed amount after applying a confirmed reimbursement offset; mirrors
+// aggregator.effective_amount. Offsets shrink a spend toward zero only.
+function effectiveAmount(tx: Transaction): number {
+  if (tx.amount >= 0 || tx.reimbursed <= 0) return tx.amount;
+  return tx.amount + Math.min(tx.reimbursed, -tx.amount);
+}
+
 export function recompute(transactions: Transaction[]): {
   total_spend: number;
   by_category: CategorySummary[];
@@ -19,13 +26,14 @@ export function recompute(transactions: Transaction[]): {
 
   for (const tx of transactions) {
     const cat = tx.category ?? "Other";
-    catNet.set(cat, (catNet.get(cat) ?? 0) + tx.amount); // signed
+    const eff = effectiveAmount(tx);
+    catNet.set(cat, (catNet.get(cat) ?? 0) + eff); // signed, offset-adjusted
     catCount.set(cat, (catCount.get(cat) ?? 0) + 1);
 
     // Merchant totals accumulate over spending categories only — and they
     // net charges against refunds BEFORE any threshold (the bug in my port).
     if (!EXCLUDED_CATEGORIES.has(cat)) {
-      merchantNet.set(tx.merchant, (merchantNet.get(tx.merchant) ?? 0) + tx.amount);
+      merchantNet.set(tx.merchant, (merchantNet.get(tx.merchant) ?? 0) + eff);
       merchantCount.set(tx.merchant, (merchantCount.get(tx.merchant) ?? 0) + 1);
     }
   }

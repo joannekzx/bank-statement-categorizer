@@ -12,7 +12,8 @@ interface Props {
 }
 
 export function TransactionTable({ transactions, onCorrect, saving }: Props) {
-  const [openRow, setOpenRow] = useState<number | null>(null);
+  // Which row's pill is open, plus the pill element the popup anchors to.
+  const [editing, setEditing] = useState<{ row: number; el: HTMLElement } | null>(null);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
@@ -38,33 +39,39 @@ export function TransactionTable({ transactions, onCorrect, saving }: Props) {
                   <td className="whitespace-nowrap px-5 py-2.5 text-slate-500">{formatDate(tx.date)}</td>
                   <td className="px-5 py-2.5 text-slate-800">
                     <span className="block max-w-xs truncate" title={tx.description}>{tx.merchant}</span>
+                    {tx.reimbursed > 0 && (
+                      <span className="text-xs font-medium text-green-600">
+                        −{formatMoney(tx.reimbursed)} reimbursed
+                      </span>
+                    )}
                   </td>
                   <td className={`whitespace-nowrap px-5 py-2.5 text-right font-medium ${isSpend ? "text-red-600" : "text-green-600"}`}>
                     {isSpend ? "−" : "+"}{formatMoney(tx.amount)}
+                    {tx.reimbursed > 0 && (
+                      <span className="block text-xs font-normal text-slate-400">
+                        net −{formatMoney(tx.amount + tx.reimbursed)}
+                      </span>
+                    )}
                   </td>
-                  <td className="relative px-5 py-2.5">
+                  <td className="px-5 py-2.5">
                     <button
-                      onClick={() => onCorrect && setOpenRow(openRow === i ? null : i)}
+                      onClick={(e) =>
+                        onCorrect &&
+                        setEditing(
+                          editing?.row === i ? null : { row: i, el: e.currentTarget },
+                        )
+                      }
                       disabled={!onCorrect}
                       className={[
                         `inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${categoryClasses(tx.category)}`,
                         onCorrect ? "cursor-pointer hover:ring-2 hover:ring-blue-300" : "cursor-default",
                         saving === tx.merchant ? "opacity-50" : "",
+                        editing?.row === i ? "ring-2 ring-blue-400" : "",
                       ].join(" ")}
                       title={onCorrect ? "Click to change category" : undefined}
                     >
                       {tx.category ?? "—"}
                     </button>
-                    {openRow === i && onCorrect && (
-                      <CategoryEditor
-                        current={tx.category}
-                        onClose={() => setOpenRow(null)}
-                        onPick={(cat) => {
-                          setOpenRow(null);
-                          onCorrect(tx.merchant, cat);
-                        }}
-                      />
-                    )}
                   </td>
                 </tr>
               );
@@ -72,6 +79,19 @@ export function TransactionTable({ transactions, onCorrect, saving }: Props) {
           </tbody>
         </table>
       </div>
+
+      {editing && onCorrect && (
+        <CategoryEditor
+          anchor={editing.el}
+          current={transactions[editing.row].category}
+          onClose={() => setEditing(null)}
+          onPick={(cat) => {
+            const merchant = transactions[editing.row].merchant;
+            setEditing(null);
+            onCorrect(merchant, cat);
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -10,9 +10,11 @@ interface Props {
   onReset: () => void;
   onCorrect: (merchant: string, category: string) => void;
   saving: string | null;
+  // Available only for persisted statements (those with an id).
+  onReviewReimbursements?: () => void;
 }
 
-export function Dashboard({ result, onReset, onCorrect, saving }: Props) {
+export function Dashboard({ result, onReset, onCorrect, saving, onReviewReimbursements }: Props) {
   function handleDownload() {
     const csv = transactionsToCsv(result.transactions);
     downloadCsv(csvFilename(result.bank, result.period_start), csv);
@@ -26,6 +28,14 @@ export function Dashboard({ result, onReset, onCorrect, saving }: Props) {
           <p className="text-slate-500">{formatPeriod(result.period_start, result.period_end)}</p>
         </div>
         <div className="flex gap-2">
+          {onReviewReimbursements && (
+            <button
+              onClick={onReviewReimbursements}
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Review reimbursements
+            </button>
+          )}
           <button
             onClick={handleDownload}
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"

@@ -2,7 +2,29 @@
 
 ## Future features
 
-### Reimbursement matching
+### Reimbursement matching — SHIPPED (Weekend 3)
+
+Built as suggest-then-confirm, per the design below. Inbound transfers (positive,
+Transfers category) are matched to spends in offset-eligible categories (Food,
+Shopping, Travel, Entertainment) within 7 days before the transfer
+(`backend/reimbursements.py`). The UI (`ReimbursementReview.tsx`) surfaces each
+candidate; on confirm, an `Offset` row {transfer_tx_id, spend_tx_id, amount} is
+stored (`POST /offsets`). The aggregator subtracts confirmed offsets from the
+parent spend's contribution via `effective_amount()`, capped at the spend
+magnitude, and multiple offsets on one spend sum (a split dinner). The original
+transaction is preserved; the net is computed and annotated in the table
+("−$12 reimbursed"). Nothing is ever auto-applied.
+
+### Persistence & trends — SHIPPED (Weekend 3)
+
+Statements persist to SQLite (`backend/db/`, SQLAlchemy) on `/analyze`, deduped by
+SHA-256 of the raw PDF bytes (re-upload replaces; a different month coexists).
+`GET /statements` + `GET /statements/{id}` back the history view; `GET /trends`
+aggregates spend by (month, category) across all statements. The netting rule is
+factored into one shared function (`net_spend_contribution` in `aggregator.py`)
+used by single-statement, trends, and offset math so the views can't diverge.
+
+### Reimbursement matching (original design)
 When the user pays for a shared meal and friends PayNow them back afterwards,
 the inbound transfers should offset the original spend in the category totals,
 not show up as "Income".
@@ -79,6 +101,9 @@ Implemented as `POST /correct {merchant, category}` → `categorizer.cache.set_m
 The frontend pill dropdown calls it, updates all rows of that merchant locally,
 and re-aggregates client-side (see `frontend/src/lib/aggregate.ts`, an exact
 mirror of `aggregator.py`).
+
+> Correction (Weekend 3): the backend `/correct` endpoint was missing — the
+> frontend called it but it 404'd. Added in Weekend 3 alongside an endpoint test.
 
 **Known limitation — corrections only beat the LLM, not the rules engine.**
 The cascade is rules → cache → LLM, and `/correct` writes to the cache. So:
