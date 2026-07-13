@@ -160,15 +160,11 @@ class UOBParser(BaseParser):
         day = int(m.group(1))
         month_name = m.group(2)
         middle = m.group(3).strip()
-        magnitude = _parse_amount(m.group(4))
         new_balance = _parse_amount(m.group(5))
 
+        # Sign comes from the running-balance delta, not the printed amount
+        # column, so credits vs debits are always correct.
         signed_amount = round(new_balance - prev_balance, 2)
-
-        # Sanity check: |signed_amount| should equal magnitude
-        if abs(abs(signed_amount) - magnitude) > 0.01:
-            # Out of sync — something went wrong, but keep going with delta
-            pass
 
         merchant = self._extract_merchant(block[1:], fallback=middle)
         description = " | ".join([middle] + block[1:])

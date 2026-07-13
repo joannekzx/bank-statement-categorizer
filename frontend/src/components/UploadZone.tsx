@@ -37,14 +37,14 @@ export function UploadZone({ onFile, loading, error }: Props) {
           if (!loading) pick(e.dataTransfer.files);
         }}
         className={[
-          "flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-12 text-center transition-colors",
-          dragging ? "border-blue-500 bg-blue-50" : "border-slate-300 bg-white hover:border-slate-400",
+          "flex cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed p-10 text-center transition-colors",
+          dragging ? "border-green-600 bg-green-50" : "border-slate-300 bg-white hover:border-slate-400",
           loading ? "pointer-events-none opacity-70" : "",
         ].join(" ")}
       >
         {loading ? (
           <>
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-green-700" />
             <p className="mt-4 font-medium text-slate-700">Analyzing your statement…</p>
             <p className="mt-1 text-sm text-slate-400">
               A fresh statement can take 5–10 seconds while new merchants are categorized.
@@ -66,7 +66,7 @@ export function UploadZone({ onFile, loading, error }: Props) {
       </div>
 
       {message && !loading && (
-        <p className="mt-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{message}</p>
+        <p className="mt-3 rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">{message}</p>
       )}
     </div>
   );

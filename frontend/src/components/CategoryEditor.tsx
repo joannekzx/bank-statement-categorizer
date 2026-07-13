@@ -83,7 +83,7 @@ export function CategoryEditor({ anchor, current, onPick, onClose }: Props) {
         width: WIDTH,
         visibility: pos ? "visible" : "hidden",
       }}
-      className="z-50 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl ring-1 ring-black/5"
+      className="z-50 rounded-md border border-slate-200 bg-white p-2 shadow-md"
     >
       <input
         autoFocus
@@ -98,7 +98,7 @@ export function CategoryEditor({ anchor, current, onPick, onClose }: Props) {
           }
         }}
         placeholder="Search category…"
-        className="mb-2 w-full rounded-lg border border-slate-200 px-2.5 py-1.5 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+        className="mb-2 w-full rounded border border-slate-200 px-2.5 py-1.5 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-green-500 focus:ring-2 focus:ring-green-100"
       />
       {filtered.length === 0 ? (
         <p className="px-1.5 py-2 text-center text-xs text-slate-400">
@@ -114,11 +114,11 @@ export function CategoryEditor({ anchor, current, onPick, onClose }: Props) {
                 role="menuitem"
                 onClick={() => onPick(cat)}
                 className={[
-                  "truncate rounded-lg px-2.5 py-1.5 text-left text-xs font-medium transition",
+                  "truncate rounded px-2.5 py-1.5 text-left text-xs font-medium transition",
                   categoryClasses(cat),
                   selected
-                    ? "ring-2 ring-blue-500"
-                    : "ring-1 ring-transparent hover:ring-2 hover:ring-blue-300",
+                    ? "ring-1 ring-green-600"
+                    : "ring-1 ring-transparent hover:ring-1 hover:ring-slate-300",
                 ].join(" ")}
                 title={cat}
               >

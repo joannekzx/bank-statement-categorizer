@@ -16,7 +16,7 @@ export function TransactionTable({ transactions, onCorrect, saving }: Props) {
   const [editing, setEditing] = useState<{ row: number; el: HTMLElement } | null>(null);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+    <div className="overflow-hidden rounded-md border border-slate-200 bg-white">
       <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
         <h2 className="text-sm font-semibold text-slate-700">Transactions</h2>
         <span className="text-xs text-slate-400">{transactions.length} rows</span>
@@ -36,16 +36,16 @@ export function TransactionTable({ transactions, onCorrect, saving }: Props) {
               const isSpend = tx.amount < 0;
               return (
                 <tr key={i} className="border-b border-slate-50 last:border-0 hover:bg-slate-50">
-                  <td className="whitespace-nowrap px-5 py-2.5 text-slate-500">{formatDate(tx.date)}</td>
+                  <td className="tnum whitespace-nowrap px-5 py-2.5 text-slate-500">{formatDate(tx.date)}</td>
                   <td className="px-5 py-2.5 text-slate-800">
                     <span className="block max-w-xs truncate" title={tx.description}>{tx.merchant}</span>
                     {tx.reimbursed > 0 && (
-                      <span className="text-xs font-medium text-green-600">
+                      <span className="text-xs font-medium text-green-700">
                         −{formatMoney(tx.reimbursed)} reimbursed
                       </span>
                     )}
                   </td>
-                  <td className={`whitespace-nowrap px-5 py-2.5 text-right font-medium ${isSpend ? "text-red-600" : "text-green-600"}`}>
+                  <td className={`tnum whitespace-nowrap px-5 py-2.5 text-right font-medium ${isSpend ? "text-slate-900" : "text-green-700"}`}>
                     {isSpend ? "−" : "+"}{formatMoney(tx.amount)}
                     {tx.reimbursed > 0 && (
                       <span className="block text-xs font-normal text-slate-400">
@@ -63,10 +63,10 @@ export function TransactionTable({ transactions, onCorrect, saving }: Props) {
                       }
                       disabled={!onCorrect}
                       className={[
-                        `inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${categoryClasses(tx.category)}`,
-                        onCorrect ? "cursor-pointer hover:ring-2 hover:ring-blue-300" : "cursor-default",
+                        `inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${categoryClasses(tx.category)}`,
+                        onCorrect ? "cursor-pointer hover:ring-1 hover:ring-slate-300" : "cursor-default",
                         saving === tx.merchant ? "opacity-50" : "",
-                        editing?.row === i ? "ring-2 ring-blue-400" : "",
+                        editing?.row === i ? "ring-1 ring-green-600" : "",
                       ].join(" ")}
                       title={onCorrect ? "Click to change category" : undefined}
                     >

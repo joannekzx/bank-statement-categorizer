@@ -106,7 +106,7 @@ export default function App() {
   return (
     <Shell view={view} onNav={setView}>
       {error && (
-        <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-700">{error}</p>
       )}
       {view === "upload" && (
         <div className="mx-auto max-w-xl">
@@ -133,20 +133,23 @@ function Shell({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-          <h1 className="text-lg font-bold text-slate-900">Statement Categorizer</h1>
-          <nav className="flex gap-1">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
+          <h1 className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-slate-900">
+            <span className="h-4 w-1 rounded-sm bg-green-700" aria-hidden />
+            Statement Categorizer
+          </h1>
+          <nav className="flex gap-0.5">
             {TABS.map((t) => (
               <button
                 key={t.key}
                 onClick={() => onNav(t.key)}
                 className={[
-                  "rounded-lg px-3 py-1.5 text-sm font-medium",
+                  "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                   view === t.key
-                    ? "bg-slate-900 text-white"
-                    : "text-slate-600 hover:bg-slate-100",
+                    ? "bg-slate-100 text-slate-900"
+                    : "text-slate-500 hover:text-slate-900",
                 ].join(" ")}
               >
                 {t.label}
@@ -155,7 +158,7 @@ function Shell({
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+      <main className="mx-auto max-w-5xl px-6 py-8">{children}</main>
     </div>
   );
 }

@@ -14,9 +14,11 @@ export function StatementHistory({ onOpen, refreshKey }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setError(null);
     listStatements()
-      .then(setStatements)
+      .then((s) => {
+        setStatements(s);
+        setError(null);
+      })
       .catch((e) => setError(e instanceof Error ? e.message : "Failed to load"));
   }, [refreshKey]);
 
@@ -25,7 +27,7 @@ export function StatementHistory({ onOpen, refreshKey }: Props) {
 
   if (statements.length === 0) {
     return (
-      <p className="rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-400">
+      <p className="rounded-md border border-dashed border-slate-300 p-8 text-center text-sm text-slate-400">
         No statements yet. Upload one to get started.
       </p>
     );
@@ -37,17 +39,17 @@ export function StatementHistory({ onOpen, refreshKey }: Props) {
         <li key={s.id}>
           <button
             onClick={() => onOpen(s.id)}
-            className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-5 py-4 text-left hover:border-blue-300 hover:bg-slate-50"
+            className="flex w-full items-center justify-between rounded-md border border-slate-200 bg-white px-5 py-4 text-left transition-colors hover:border-slate-300 hover:bg-slate-50"
           >
             <div>
               <p className="font-medium text-slate-800">
                 {s.bank} · {formatPeriod(s.period_start, s.period_end)}
               </p>
-              <p className="text-xs text-slate-400">
+              <p className="tnum text-xs text-slate-400">
                 {s.transaction_count} transactions · uploaded {formatDate(s.uploaded_at.slice(0, 10))}
               </p>
             </div>
-            <span className="text-lg font-semibold text-slate-900">
+            <span className="tnum text-lg font-semibold text-slate-900">
               {formatMoney(s.total_spend)}
             </span>
           </button>

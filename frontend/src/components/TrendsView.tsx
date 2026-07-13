@@ -13,10 +13,10 @@ import type { Trends } from "../types";
 import { getTrends } from "../api";
 import { formatMoney } from "../lib/format";
 
-// A fixed palette so each category keeps a stable colour across renders.
+// A fixed, muted palette so each category keeps a stable colour across renders.
 const LINE_COLORS = [
-  "#2563eb", "#f97316", "#16a34a", "#db2777",
-  "#9333ea", "#0891b2", "#ca8a04", "#dc2626",
+  "#15803d", "#0369a1", "#b45309", "#7c3aed",
+  "#0f766e", "#be123c", "#4d7c0f", "#9a3412",
 ];
 const MAX_SERIES = 6; // keep the chart legible; chart the biggest spenders
 
@@ -25,9 +25,11 @@ export function TrendsView() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setError(null);
     getTrends()
-      .then(setTrends)
+      .then((t) => {
+        setTrends(t);
+        setError(null);
+      })
       .catch((e) => setError(e instanceof Error ? e.message : "Failed to load"));
   }, []);
 
@@ -41,7 +43,7 @@ export function TrendsView() {
 
   if (months.length < 2) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-300 p-8 text-center">
+      <div className="rounded-md border border-dashed border-slate-300 p-8 text-center">
         <p className="text-sm font-medium text-slate-600">Not enough data yet</p>
         <p className="mt-1 text-sm text-slate-400">
           Trends need at least 2 months of statements. Upload another month and
@@ -69,7 +71,7 @@ export function TrendsView() {
   });
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
+    <div className="rounded-md border border-slate-200 bg-white p-5">
       <h2 className="mb-4 text-sm font-semibold text-slate-700">
         Spending by category over time
       </h2>

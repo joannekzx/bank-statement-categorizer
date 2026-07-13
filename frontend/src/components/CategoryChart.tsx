@@ -12,7 +12,7 @@ export function CategoryChart({ data }: { data: CategorySummary[] }) {
     .sort((a, b) => b.total - a.total);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
+    <div className="rounded-md border border-slate-200 bg-white p-5">
       <h2 className="mb-3 text-sm font-semibold text-slate-700">Spending by category</h2>
       {spending.length === 0 ? (
         <p className="text-sm text-slate-400">No spending categories.</p>
@@ -22,7 +22,7 @@ export function CategoryChart({ data }: { data: CategorySummary[] }) {
             <XAxis type="number" tickFormatter={(v) => formatMoney(v)} fontSize={11} />
             <YAxis type="category" dataKey="category" width={128} fontSize={12} />
             <Tooltip formatter={(v) => formatMoney(Number(v))} cursor={{ fill: "#f1f5f9" }} />
-            <Bar dataKey="total" fill="#2563eb" radius={[0, 4, 4, 0]} />
+            <Bar dataKey="total" fill="#15803d" radius={[0, 3, 3, 0]} />
           </BarChart>
         </ResponsiveContainer>
       )}
@@ -36,7 +36,7 @@ export function CategoryChart({ data }: { data: CategorySummary[] }) {
             {excluded.map((d) => (
               <li key={d.category} className="flex justify-between text-slate-500">
                 <span>{d.category}</span>
-                <span>{formatMoney(d.total)}</span>
+                <span className="tnum">{formatMoney(d.total)}</span>
               </li>
             ))}
           </ul>

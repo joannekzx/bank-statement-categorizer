@@ -59,14 +59,14 @@ export function ReimbursementReview({ statementId, onConfirmed, onBack }: Props)
         </div>
         <button
           onClick={onBack}
-          className="shrink-0 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="shrink-0 rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
         >
           Back
         </button>
       </div>
 
       {open.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-400">
+        <p className="rounded-md border border-dashed border-slate-300 p-8 text-center text-sm text-slate-400">
           {suggestions.length === 0
             ? "No likely reimbursements found in this statement."
             : "All suggestions reviewed."}
@@ -79,10 +79,10 @@ export function ReimbursementReview({ statementId, onConfirmed, onBack }: Props)
             return (
               <li
                 key={transfer.id}
-                className="rounded-2xl border border-slate-200 bg-white p-5"
+                className="rounded-md border border-slate-200 bg-white p-5"
               >
                 <p className="text-sm text-slate-500">Inbound transfer</p>
-                <p className="mb-3 font-medium text-green-700">
+                <p className="tnum mb-3 font-medium text-green-700">
                   +{formatMoney(transfer.amount)} from {transfer.merchant} ·{" "}
                   {formatDate(transfer.date)}
                 </p>
@@ -94,9 +94,9 @@ export function ReimbursementReview({ statementId, onConfirmed, onBack }: Props)
                     <label
                       key={c.id}
                       className={[
-                        "flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2 text-sm",
+                        "flex cursor-pointer items-center gap-3 rounded-md border px-3 py-2 text-sm",
                         chosen === c.id
-                          ? "border-blue-400 bg-blue-50"
+                          ? "border-green-600 bg-green-50"
                           : "border-slate-200 hover:bg-slate-50",
                       ].join(" ")}
                     >
@@ -108,11 +108,11 @@ export function ReimbursementReview({ statementId, onConfirmed, onBack }: Props)
                           setPicked((p) => ({ ...p, [transfer.id!]: c.id! }))
                         }
                       />
-                      <span className="flex-1 text-slate-700">
+                      <span className="tnum flex-1 text-slate-700">
                         −{formatMoney(c.amount)} · {c.merchant}
                         <span className="text-slate-400"> ({c.category})</span>
                       </span>
-                      <span className="text-slate-400">{formatDate(c.date)}</span>
+                      <span className="tnum text-slate-400">{formatDate(c.date)}</span>
                     </label>
                   ))}
                 </div>
@@ -122,7 +122,7 @@ export function ReimbursementReview({ statementId, onConfirmed, onBack }: Props)
                     onClick={() =>
                       confirm(transfer, s.candidates.find((c) => c.id === chosen)!)
                     }
-                    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-40"
+                    className="rounded-md bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-800 disabled:opacity-40"
                   >
                     {busy === transfer.id ? "Saving…" : "Confirm offset"}
                   </button>
@@ -130,7 +130,7 @@ export function ReimbursementReview({ statementId, onConfirmed, onBack }: Props)
                     onClick={() =>
                       setDone((d) => new Set(d).add(transfer.id!))
                     }
-                    className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                    className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
                     Dismiss
                   </button>
